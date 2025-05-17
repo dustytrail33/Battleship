@@ -1,13 +1,13 @@
 {
-  "name": "battleship",
+  "name": "ws_task",
   "version": "1.0.0",
-  "description": "",
-  "engines": {
-    "node": ">=22.14.0"
-  },
+  "description": "Template for the WebSocket remote control task",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "node ./index.js",
     "start:prod": "npm run build && node dist/index.js",
+    "start:dev": "nodemon ./index.js",
     "build": "npm run lint && npm run test && webpack --mode production",
     "lint": "eslint \"src/**/*.{ts,js}\"",
     "format": "prettier --write \"src/**/*.{ts,js,json}\"",
@@ -17,8 +17,8 @@
     "type": "git",
     "url": "git@github.com:dustytrail33/Battleship.git"
   },
+  "author": "Andrei Auchynnikau",
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.26.0",
@@ -41,8 +41,7 @@
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
-    "cross-env": "^7.0.3",
     "uuid": "^11.1.0",
-    "ws": "^8.18.2"
+    "ws": "^8.8.0"
   }
 }

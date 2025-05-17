@@ -9,3 +9,7 @@ export type Game = {
 
 
 export type WSMessage = { type: string; data: unknown; id: number };
+
+export interface IExtendedWebSocket extends WebSocket {
+  playerStoreId?: string;
+}
