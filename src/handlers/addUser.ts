@@ -23,7 +23,7 @@ export function handleAddUser(ws: WebSocket, wss: WebSocketServer, data: string)
       sessionId,
       playerStoreId: storeId,
       hits: new Set(),
-      shots: []
+      shots: [],
     });
     send(client as WebSocket, 'create_game', { idGame: gameId, idPlayer: sessionId });
   }
@@ -31,4 +31,5 @@ export function handleAddUser(ws: WebSocket, wss: WebSocketServer, data: string)
   games[gameId] = game;
   delete rooms[roomId];
   broadcast(wss, 'update_room', createRoomList());
+  console.log('[COMMAND] add_user', JSON.stringify({ session: roomId, player: pid }, null, 2));
 }

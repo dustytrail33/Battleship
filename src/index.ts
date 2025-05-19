@@ -13,6 +13,20 @@ const server = http.createServer();
 
 const wss = new WebSocketServer({ server });
 
-wss.on('connection', ws => handleConnection(ws, wss));
+wss.on('connection', (ws) => handleConnection(ws, wss));
 
 server.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+
+['SIGINT', 'SIGTERM', 'SIGQUIT'].forEach((signal) =>
+  process.on(signal, async () => {
+    await (async () => {
+      wss.close();
+      wss.clients.forEach((socket) => {
+        socket.close();
+      });
+    })();
+
+    console.log('Server is shut down.');
+    process.exit();
+  }),
+);

@@ -15,7 +15,7 @@ export function handleAddShips(ws: WebSocket, wss: WebSocketServer, data: string
   if (ships.length !== 10 || totalLength !== 20) {
     return send(ws, 'add_ships', {
       error: true,
-      errorText: 'Неправильный набор кораблей',
+      errorText: 'Incorrect set of ships',
     });
   }
 
@@ -32,4 +32,5 @@ export function handleAddShips(ws: WebSocket, wss: WebSocketServer, data: string
       });
     });
   }
+  console.log('[COMMAND] add_ships', JSON.stringify({ player: indexPlayer, ships: ships }, null, 2));
 }

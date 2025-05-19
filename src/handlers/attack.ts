@@ -32,6 +32,7 @@ export function handleAttack(ws: WebSocket, wss: WebSocketServer, data: string) 
     status = 'miss';
     broadcast(wss, 'attack', { position: { x, y }, currentPlayer: player.sessionId, status });
     broadcast(wss, 'turn', { currentPlayer: game.players[game.turnIndex].sessionId });
+    console.log('[COMMAND] attack', JSON.stringify({ position: { x, y }, status }, null, 2));
     return;
   }
 
@@ -77,10 +78,12 @@ export function handleAttack(ws: WebSocket, wss: WebSocketServer, data: string) 
   aroundCells.forEach((cell) => (player.shots as Position[]).push(cell));
   broadcast(wss, 'attack', { position: { x, y }, currentPlayer: player.sessionId, status });
 
-  if((defender.ships as Ship[]).every((ship) => (ship?.damages ?? 0) >= ship.length)) {
+  if ((defender.ships as Ship[]).every((ship) => (ship?.damages ?? 0) >= ship.length)) {
     players[player.playerStoreId].wins = (players[player.playerStoreId].wins || 0) + 1;
 
     broadcast(wss, 'finish', { winPlayer: player.sessionId });
     broadcast(wss, 'update_winners', createWinnersList());
   }
+
+  console.log('[COMMAND] attack', JSON.stringify({ position: { x, y }, status }, null, 2));
 }
