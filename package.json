@@ -4,7 +4,7 @@
   "description": "Template for the WebSocket remote control task",
   "main": "index.ts",
   "scripts": {
-    "start:front": "ts-node ./index.ts",
+    "start": "ts-node ./src/index.ts",
     "start:dev": "nodemon ./src/index.ts",
     "lint": "eslint \"src/**/*.{ts,js}\"",
     "format": "prettier --write \"src/**/*.{ts,js,json}\"",
