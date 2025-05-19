@@ -23,6 +23,7 @@ export function handleAddUser(ws: WebSocket, wss: WebSocketServer, data: string)
       sessionId,
       playerStoreId: storeId,
       hits: new Set(),
+      shots: []
     });
     send(client as WebSocket, 'create_game', { idGame: gameId, idPlayer: sessionId });
   }
