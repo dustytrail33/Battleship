@@ -1,5 +1,5 @@
 import { WebSocket, WebSocketServer } from 'ws';
-import { games } from '../storage';
+import { createWinnersList, games, players } from '../storage';
 import { broadcast } from '../utils/messaging';
 import { Position, Ship } from '../types';
 
@@ -10,7 +10,7 @@ export function handleAttack(ws: WebSocket, wss: WebSocketServer, data: string) 
 
   const attackerIdx = game.players.findIndex((p) => p.sessionId === indexPlayer);
   if (attackerIdx !== game.turnIndex) return;
-  // console.log( game.players, attackerIdx )
+
   const defender = game.players[1 - attackerIdx];
   const player = game.players[attackerIdx];
 
@@ -76,4 +76,11 @@ export function handleAttack(ws: WebSocket, wss: WebSocketServer, data: string) 
 
   aroundCells.forEach((cell) => (player.shots as Position[]).push(cell));
   broadcast(wss, 'attack', { position: { x, y }, currentPlayer: player.sessionId, status });
+
+  if((defender.ships as Ship[]).every((ship) => (ship?.damages ?? 0) >= ship.length)) {
+    players[player.playerStoreId].wins = (players[player.playerStoreId].wins || 0) + 1;
+
+    broadcast(wss, 'finish', { winPlayer: player.sessionId });
+    broadcast(wss, 'update_winners', createWinnersList());
+  }
 }

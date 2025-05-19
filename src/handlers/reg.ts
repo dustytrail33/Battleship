@@ -1,6 +1,6 @@
 import WebSocket, { WebSocketServer } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
-import { players } from '../storage';
+import { createWinnersList, players } from '../storage';
 import { send, broadcast } from '../utils/messaging';
 import { createRoomList } from '../storage';
 import { IExtendedWebSocket } from '../types';
@@ -23,4 +23,5 @@ export function handleReg(ws: WebSocket, wss: WebSocketServer, data: string) {
   send(ws, 'reg', { name: player.name, index: player.id, error: false });
 
   broadcast(wss, 'update_room', createRoomList());
+  broadcast(wss, 'update_winners',createWinnersList());
 }

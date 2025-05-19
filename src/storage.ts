@@ -15,3 +15,12 @@ export function createRoomList() {
       })),
     }));
 }
+
+export function createWinnersList() {
+  return Object.values(players)
+    .filter((p) => (p.wins ?? 0) > 0)
+    .map((p) => ({
+      name: p.name,
+      wins: p.wins ?? 0,
+    }));
+}
